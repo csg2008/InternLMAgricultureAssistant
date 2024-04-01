@@ -75,6 +75,7 @@ while True:
 > - 将文档实例中第 22 行由 `input_text = input_text.replace(' ', '')` 改为 `input_text = input_text.strip()` 以解决输入文本中空格全被去掉现象
 > - 将文档实例中第 23 行由 `if input_text == "exit":` 改为 `if input_text.lower() == "exit":` 可以忽略退出命令大小写
 > - 在文档实例中第 24 行后加上一行 `print('Robot:')` 来对输入与输出加个分隔
+
 4、执行脚本下载模型并启动 Demo 实例
 ```bash
 python /root/demo/download_mini.py && python /root/demo/cli_demo.py
