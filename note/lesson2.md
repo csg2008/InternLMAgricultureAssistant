@@ -82,3 +82,44 @@ python /root/demo/download_mini.py && python /root/demo/cli_demo.py
 ```
 ## 三、交互实例效果
 ![](./asset/06.png)
+
+## 四、下载 Huggingface 上的 InternLM2-Chat-7B 配置文件
+1、安装 huggingface 库，参考命令: `pip install -U huggingface_hub`
+
+2、命令行下载，参考命令: `huggingface-cli download 'internlm/InternLM2-Chat-7B' config.json --local-dir /root/demo/`
+
+3、Python 包的方式下载
+> 创建下载脚本 `vi /root/demo/cli_download_huggingface_config.py`, 参考代码：
+```python
+import os
+from huggingface_hub import hf_hub_download
+
+hf_hub_download(repo_id="internlm/InternLM2-Chat-7B", filename="config.json", local_dir = '/root/demo/', resume_download = True)
+```
+> 执行脚本，参考命令: `python /root/demo/cli_download_huggingface_config.py`
+
+4、查看下载的配置文件内容，参考命令: `cat /root/demo/config.json`
+
+5、完整操作流程与验证截图
+![](./asset/07.png)
+
+
+## 五、基于 LAgent 的数据分析 Demo 部署
+1、参数文档安装 lagent 智能体框架
+
+2、创建共享的 Internlm2-chat-7b 的转链接到 /root/models/internlm2-chat-7b
+
+3、修改 lagent demo 配置文件 examples/internlm2_agent_web_demo_hf.py，将模型路径改为 /root/models/internlm2-chat-7b
+
+4、启动 Web demo，并将 6006 端口映射到本地，然后在本地浏览器打开 demo 项目
+
+5、试用效果
+
+沪深300股票数据预览
+![](./asset/08.png)
+
+沪深300涨幅前十的股票名称、涨跌幅、现价、总量、总金额
+![](./asset/09.png)
+
+沪深300涨跌幅数量汇总
+![](./asset/10.png)
