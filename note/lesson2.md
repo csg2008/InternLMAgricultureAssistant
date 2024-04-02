@@ -3,9 +3,12 @@
 ## 一、基础环境准备
 1、创建 A100 10% 开发机
 ![](./asset/04.png)
+
 2、安装 InternLM2-Chat-1.8B 的运行环境包
-- 执行命令 `studio-conda -o internlm-base -t demo` 一键安装基础包，由于基础包大需要耐心等待，安装成功显示如下：
+
+执行命令 `studio-conda -o internlm-base -t demo` 一键安装基础包，由于基础包大需要耐心等待，安装成功显示如下：
 ![](./asset/05.png)
+
 3、切换到上面创建的 demo 环境，并安装补充包：
 ```bash
 conda activate demo
@@ -21,6 +24,7 @@ pip install sentencepiece==0.1.99
 
 ## 二、下载 InternLM2-Chat-1.8B 模型
 1、创建存放模型的文件夹，参考命令：`mkdir -p /root/demo`
+
 2、创建下载模型的脚本 `vi /root/demo/download_mini.py`, 并粘贴以下代码:
 ```python
 import os
@@ -89,31 +93,49 @@ python /root/demo/download_mini.py && python /root/demo/cli_demo.py
 2、命令行下载，参考命令: `huggingface-cli download 'internlm/InternLM2-Chat-7B' config.json --local-dir /root/demo/`
 
 3、Python 包的方式下载
-> 创建下载脚本 `vi /root/demo/cli_download_huggingface_config.py`, 参考代码：
+
+创建下载脚本 `vi /root/demo/cli_download_huggingface_config.py`, 参考代码：
 ```python
 import os
 from huggingface_hub import hf_hub_download
 
 hf_hub_download(repo_id="internlm/InternLM2-Chat-7B", filename="config.json", local_dir = '/root/demo/', resume_download = True)
 ```
-> 执行脚本，参考命令: `python /root/demo/cli_download_huggingface_config.py`
+
+最后执行脚本开始下载，参考命令: `python /root/demo/cli_download_huggingface_config.py`
 
 4、查看下载的配置文件内容，参考命令: `cat /root/demo/config.json`
 
 5、完整操作流程与验证截图
 ![](./asset/07.png)
 
+> 特别说明：由于到 Huggingface 的网络不稳定，如果现出下载超时，可以尝试[常见问题的解决方法](https://cguue83gpz.feishu.cn/docx/Noi7d5lllo6DMGxkuXwclxXMn5f#K0i7dWjTFoTqn7xAwE4c2vNnn9g)
 
 ## 五、基于 LAgent 的数据分析 Demo 部署
-1、参数文档安装 lagent 智能体框架
+1、升级开发机为 A100 30%，并参考文档安装 lagent 智能体框架
+```bash
+conda activate demo
+cd /root/demo
+git clone https://gitee.com/internlm/lagent.git
+cd /root/demo/lagent
+git checkout 581d9fb8987a5d9b72bb9ebd37a95efd47d479ac
+pip install -e .
+```
 
-2、创建共享的 Internlm2-chat-7b 的转链接到 /root/models/internlm2-chat-7b
+2、创建 Internlm2-chat-7b 的模型软链接到 /root/models/internlm2-chat-7b
+```bash
+ln -s /root/share/new_models/Shanghai_AI_Laboratory/internlm2-chat-7b /root/models/internlm2-chat-7b
+```
 
-3、修改 lagent demo 配置文件 examples/internlm2_agent_web_demo_hf.py，将模型路径改为 /root/models/internlm2-chat-7b
+3、修改 lagent demo 配置文件 /root/demo/lagent/examples/internlm2_agent_web_demo_hf.py，将模型路径改为 /root/models/internlm2-chat-7b
+![](./asset/14.png)
 
-4、启动 Web demo，并将 6006 端口映射到本地，然后在本地浏览器打开 demo 项目
+4、启动 Web demo 并将 6006 端口映射到本地，然后在本地浏览器打开 demo 项目
+```bash
+streamlit run /root/demo/lagent/examples/internlm2_agent_web_demo_hf.py --server.address 127.0.0.1 --server.port 6006
+```
 
-5、试用效果
+5、试用效果截图
 
 沪深300股票数据预览
 ![](./asset/08.png)
@@ -121,5 +143,60 @@ hf_hub_download(repo_id="internlm/InternLM2-Chat-7B", filename="config.json", lo
 沪深300涨幅前十的股票名称、涨跌幅、现价、总量、总金额
 ![](./asset/09.png)
 
-沪深300涨跌幅数量汇总
+沪深300涨跌幅股票数量汇总
 ![](./asset/10.png)
+
+> 遇到的问题及解决方法:
+> - 显卡显存溢出：关闭浏览器，重新启动 DEMO 后再在浏览器打开体验，以免因为浏览自动刷新导致模型重复加载
+> - CSV读取失败：提示编码异常，可以用文本编辑器将 CSV 文件换行符改为 `\n` 文件编码改为 `utf-8`
+> - 输出的不及预期：调整数据分析提示词与prompt提示词，尽量详细的描述需求
+
+## 六、实践部署 浦语·灵笔2 模型
+1、升级开发机为 A100 50%
+![](./asset/11.png)
+
+2、切换到 conda demo 环境并安装必须的补充包
+```bash
+conda activate demo
+pip install timm==0.4.12 sentencepiece==0.1.99 markdown2==2.4.10 xlsxwriter==3.1.2 gradio==4.13.0 modelscope==1.9.5
+```
+
+3、克隆 InternLM-XComposer 仓库 `并切换到指定提交`
+```bash
+cd /root/demo
+git clone https://gitee.com/internlm/InternLM-XComposer.git
+cd /root/demo/InternLM-XComposer
+git checkout f31220eddca2cf6246ee2ddf8e375a40457ff626
+```
+
+4、创建 浦语·灵笔2 模型软链接, 为后面的快速启动服务做准备
+```bash
+ln -s /root/share/new_models/Shanghai_AI_Laboratory/internlm-xcomposer2-7b /root/models/internlm-xcomposer2-7b
+ln -s /root/share/new_models/Shanghai_AI_Laboratory/internlm-xcomposer2-vl-7b /root/models/internlm-xcomposer2-vl-7b
+```
+
+5、启动图文写作 Demo 并转发 6006 端口到本地，然后在本地浏览器打开 `http://127.0.0.1:6006` 体验
+```bash
+cd /root/demo/InternLM-XComposer
+python /root/demo/InternLM-XComposer/examples/gradio_demo_composition.py  \
+--code_path /root/models/internlm-xcomposer2-7b \
+--private \
+--num_gpus 1 \
+--port 6006
+```
+> 图文创作效果演示
+![](./asset/12.png)
+> 注意事项：建议体验完后关闭服务以清理资源占用
+
+6、启动图片理解 Demo 并转发 6006 端口到本地，然后在本地浏览器打开 `http://127.0.0.1:6006` 体验
+```bash
+cd /root/demo/InternLM-XComposer
+python /root/demo/InternLM-XComposer/examples/gradio_demo_chat.py  \
+--code_path /root/models/internlm-xcomposer2-vl-7b \
+--private \
+--num_gpus 1 \
+--port 6006
+```
+> 图文理解效果演示
+![](./asset/13.png)
+> 注意事项：建议体验完后关闭服务以清理资源占用
