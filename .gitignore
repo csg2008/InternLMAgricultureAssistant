@@ -96,4 +96,4 @@ ENV/
 .vscode/
 log/
 output/
-knowledge/
+data/
