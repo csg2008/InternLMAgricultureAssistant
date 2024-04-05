@@ -132,3 +132,26 @@ def load_vector_store(db_path: str, embedding_model: str) -> Chroma:
     )
 
     return db
+
+def build_query_with_context(db: Chroma, question: str, template: str) -> str:
+    """
+    构建问答模板
+
+    args:
+        db           向量数据库
+        question     原始问题
+        template     问答模板
+
+    return:
+        query        带上下文的查询
+    """
+
+    context = []
+    docs = db.get_relevant_documents(question)
+    if docs and len(docs) > 0:
+        for doc in docs:
+            context.append(doc.page_content)
+
+        return template.replace('{context}', "\n-------\n".join(context)).replace('{question}', question)
+
+    return question
