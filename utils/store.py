@@ -13,6 +13,7 @@ from langchain.document_loaders.text import TextLoader
 from langchain.document_loaders.markdown import UnstructuredMarkdownLoader
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_core.vectorstores import VectorStoreRetriever
 
 # 获取文件路径函数
 def get_dir_files(dir_path: str, suffix: List[str]) -> List[str]:
@@ -133,7 +134,7 @@ def load_vector_store(db_path: str, embedding_model: str) -> Chroma:
 
     return db
 
-def build_query_with_context(db: Chroma, question: str, template: str) -> str:
+def build_query_with_context(db: VectorStoreRetriever, question: str, template: str) -> str:
     """
     构建问答模板
 
