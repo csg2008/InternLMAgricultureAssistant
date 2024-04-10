@@ -67,3 +67,133 @@ RAG(Retrieval Augmented Generation)是一种结合了信息检索(Retrieval)和�
 > - 对比问题答案与原始文档十个问题：正确六个、错误两个、技术错误两个
 > - 两个错误回答中三号问题 `金桔怎么浇水` 回答与问题完全无关，四号问题 `菠萝长在树上还是地上` 直接从问题中取结果没有看后面的答案
 > - 两个技术错误，在多次刷新页面重新测试时会出现同一个问有时能正确回答有时就是技术错误，重现概率比较高
+> - 由于不能获取当前时间，问题中带当前季节或当前月份的时候就出现错误回复
+
+## 五、茴香豆部署
+### A、创建 A100 30% 的开发机
+![](./asset/22.png)
+
+### B、安装基础环境
+参考命令：
+```bash
+studio-conda -o internlm-base -t InternLM2_Huixiangdou
+conda activate InternLM2_Huixiangdou
+```
+
+安装成功显示如下：
+
+![](./asset/23.png)
+
+### C、安装茴香豆
+安装茴香豆依赖的包，参考命令
+```bash
+pip install protobuf==4.25.3 accelerate==0.28.0 aiohttp==3.9.3 auto-gptq==0.7.1 bcembedding==0.1.3 beautifulsoup4==4.8.2 einops==0.7.0 faiss-gpu==1.7.2 langchain==0.1.14 loguru==0.7.2 lxml_html_clean==0.1.0 openai==1.16.1 openpyxl==3.1.2 pandas==2.2.1 pydantic==2.6.4 pymupdf==1.24.1 python-docx==1.1.0 pytoml==0.1.21 readability-lxml==0.8.1 redis==5.0.3 requests==2.31.0 scikit-learn==1.4.1.post1 sentence_transformers==2.2.2 textract==1.6.5 tiktoken==0.6.0 transformers==4.39.3 transformers_stream_generator==0.0.5 unstructured==0.11.2
+
+apt update && apt -y install python-dev python libxml2-dev libxslt1-dev antiword unrtf poppler-utils pstotext tesseract-ocr flac ffmpeg lame libmad0 libsox-fmt-mp3 sox libjpeg-dev swig libpulse-dev
+```
+
+创建书生浦语模型的本地符号链接，参考命令：
+```bash
+# 创建模型文件夹
+cd /root && mkdir models
+
+ln -s /root/share/new_models/maidalun1020/bce-embedding-base_v1 /root/models/bce-embedding-base_v1
+ln -s /root/share/new_models/maidalun1020/bce-reranker-base_v1 /root/models/bce-reranker-base_v1
+ln -s /root/share/new_models/Shanghai_AI_Laboratory/internlm2-chat-7b /root/models/internlm2-chat-7b
+```
+
+从茴香豆官方仓库下载茴香豆源码并切换到指定提交，参考命令：
+```bash
+cd /root
+git clone https://github.com/internlm/huixiangdou
+cd huixiangdou && git checkout 447c6f7e68a1657fce1c4f7c740ea1700bde0440
+```
+
+配置茴香豆使用上面的模型，参考命令：
+```bash
+sed -i '6s#.*#embedding_model_path = "/root/models/bce-embedding-base_v1"#' /root/huixiangdou/config.ini
+sed -i '7s#.*#reranker_model_path = "/root/models/bce-reranker-base_v1"#' /root/huixiangdou/config.ini
+sed -i '29s#.*#local_llm_path = "/root/models/internlm2-chat-7b"#' /root/huixiangdou/config.ini
+```
+
+创建知识库，参考命令：
+```bash
+cd /root/huixiangdou
+mv resource/good_questions.json resource/good_questions_bk.json
+
+# 希望茴香豆助手回答的示例问题
+echo '[
+    "mmpose中怎么调用mmyolo接口",
+    "mmpose实现姿态估计后怎么实现行为识别",
+    "mmpose执行提取关键点命令不是分为两步吗，一步是目标检测，另一步是关键点提取，我现在目标检测这部分的代码是demo/topdown_demo_with_mmdet.py demo/mmdetection_cfg/faster_rcnn_r50_fpn_coco.py checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth   现在我想把这个mmdet的checkpoints换位yolo的，那么应该怎么操作",
+    "在mmdetection中，如何同时加载两个数据集，两个dataloader",
+    "如何将mmdetection2.28.2的retinanet配置文件改为单尺度的呢？",
+    "1.MMPose_Tutorial.ipynb、inferencer_demo.py、image_demo.py、bottomup_demo.py、body3d_pose_lifter_demo.py这几个文件和topdown_demo_with_mmdet.py的区别是什么，\n2.我如果要使用mmdet是不是就只能使用topdown_demo_with_mmdet.py文件，",
+    "mmpose 测试 map 一直是 0 怎么办？",
+    "如何使用mmpose检测人体关键点？",
+    "我使用的数据集是labelme标注的，我想知道mmpose的数据集都是什么样式的，全都是单目标的数据集标注，还是里边也有多目标然后进行标注",
+    "如何生成openmmpose的c++推理脚本",
+    "mmpose",
+    "mmpose的目标检测阶段调用的模型，一定要是demo文件夹下的文件吗，有没有其他路径下的文件",
+    "mmpose可以实现行为识别吗，如果要实现的话应该怎么做",
+    "我在mmyolo的v0.6.0 (15/8/2023)更新日志里看到了他新增了支持基于 MMPose 的 YOLOX-Pose，我现在是不是只需要在mmpose/project/yolox-Pose内做出一些设置就可以，换掉demo/mmdetection_cfg/faster_rcnn_r50_fpn_coco.py 改用mmyolo来进行目标检测了",
+    "mac m1从源码安装的mmpose是x86_64的",
+    "想请教一下mmpose有没有提供可以读取外接摄像头，做3d姿态并达到实时的项目呀？",
+    "huixiangdou 是什么？",
+    "使用科研仪器需要注意什么？",
+    "huixiangdou 是什么？",
+    "茴香豆 是什么？",
+    "茴香豆 能部署到微信吗？",
+    "茴香豆 怎么应用到飞书",
+    "茴香豆 能部署到微信群吗？",
+    "茴香豆 怎么应用到飞书群",
+    "huixiangdou 能部署到微信吗？",
+    "huixiangdou 怎么应用到飞书",
+    "huixiangdou 能部署到微信群吗？",
+    "huixiangdou 怎么应用到飞书群",
+    "huixiangdou",
+    "茴香豆",
+    "茴香豆 有哪些应用场景",
+    "huixiangdou 有什么用",
+    "huixiangdou 的优势有哪些？",
+    "茴香豆 已经应用的场景",
+    "huixiangdou 已经应用的场景",
+    "huixiangdou 怎么安装",
+    "茴香豆 怎么安装",
+    "茴香豆 最新版本是什么",
+    "茴香豆 支持哪些大模型",
+    "茴香豆 支持哪些通讯软件",
+    "config.ini 文件怎么配置",
+    "remote_llm_model 可以填哪些模型?"
+]' > /root/huixiangdou/resource/good_questions.json
+
+# 创建一个测试用的问询列表，用来测试拒答流程是否起效：
+echo '[
+"huixiangdou 是什么？",
+"你好，介绍下自己"
+]' > ./test_queries.json
+```
+
+创建向量数据并测试，参考命令：
+```bash
+cd /root/huixiangdou && mkdir workdir
+
+# 分别向量化知识语料、接受问题和拒绝问题中后保存到 workdir
+python3 -m huixiangdou.service.feature_store --sample ./test_queries.json
+```
+
+在测试的过程中遇到文档内容长度超出的断言, 可以先屏蔽断言，再继续运行，错误截图：
+![](./asset/24.png)
+
+### D、运行茴香豆助手测试
+填入几个预设问题测试茴香豆助手，参考命令:
+```bash
+sed -i '74s/.*/    queries = ["huixiangdou 是什么？", "茴香豆怎么部署到微信群", "今天天气怎么样？"]/' /root/huixiangdou/huixiangdou/main.py
+
+# 运行茴香豆
+cd /root/huixiangdou/
+python3 -m huixiangdou.main --standalone
+```
+
+测试问题 `茴香豆怎么部署到微信群` 的回答：
+![](./asset/25.png)
