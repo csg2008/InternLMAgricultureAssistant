@@ -69,7 +69,7 @@ RAG(Retrieval Augmented Generation)是一种结合了信息检索(Retrieval)和�
 > - 两个技术错误，在多次刷新页面重新测试时会出现同一个问有时能正确回答有时就是技术错误，重现概率比较高
 > - 由于不能获取当前时间，问题中带当前季节或当前月份的时候就出现错误回复
 
-## 五、茴香豆部署
+## 五、茴香豆本地模型命令行部署
 ### A、创建 A100 30% 的开发机
 ![](./asset/22.png)
 
@@ -197,3 +197,50 @@ python3 -m huixiangdou.main --standalone
 
 测试问题 `茴香豆怎么部署到微信群` 的回答：
 ![](./asset/25.png)
+
+## 六、茴香豆自定义知识库远程模型 WEB 部署
+### A、上传知识库源文件
+> - 将农业问答知识库文件上传到服务器的 /root/data/knowledge
+
+### B、重建自定义知识库
+建农业问题知识库，参考命令:
+```bash
+cd /root/huixiangdou/
+python3 -m huixiangdou.service.feature_store --repo_dir /root/data/knowledge
+```
+
+### C、切换大模型为远程的 Deepseek
+![](./asset/26.png)
+
+### D、用 Gradio 搭建网页 Demo
+安装 Gradio 依赖组件, 参考命令：
+```bash
+pip install gradio==4.25.0 redis==5.0.3 flask==3.0.2 lark_oapi==1.2.4
+```
+
+运行脚本，启动茴香豆对话 Demo 服务并映射 7860 端口到本地, 参考命令：
+```bash
+python3 -m tests.test_query_gradio
+```
+
+> - 说明：参照文档将 enable_local 设置为 0 后运行输出问题会出现以下错误：
+![](./asset/27.png)
+> 需要将 enable_local 设置为 1 或修改 huixiangdou/service/worker.py 103 行的推理后端为根据 enable_local 来自行判断
+
+### E、WEB 端问题测试
+1、由于知识库参考过长导致一直失败的问题测试：
+![](./asset/28.png)
+![](./asset/29.png)
+
+2、误取问题标题理解错误的问题测试:
+![](./asset/30.png)
+
+3、加大难度，需要交叉多个文档片段的问题测试：
+![](./asset/31.png)
+![](./asset/32.png)
+
+4、本地失败的季节性问题测试：
+![](./asset/33.png)
+![](./asset/34.png)
+> - 说明：从知识库文件内容看是有相关内容的，从日志看也有检索到文档片段，触发未启用的增强搜索出错导致提前终止。
+
