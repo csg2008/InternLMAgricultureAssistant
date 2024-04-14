@@ -232,10 +232,11 @@ pipe = pipeline('/root/models/internlm2-chat-1_8b-4bit',
 response = pipe(['人工智能的基本原理是什么？', '人工智能现在发展到什么阶段了？', '人工智能的未来是什么？'])
 print(response)
 ```
+执行命令 `python /root/demo/cli_lmdeploy_demo.py` 运行脚本，就可以看到输出结果：
 ![](./asset/45.png)
 
 ### G、用 LMDeploy 运行视觉多模态大模型
-LMDeploy 支持 llava 多模态模型，在使用 pipeline 推理 llava-v1.6-7b 最低需要 A100 30% 的 InternStudio 开发机
+LMDeploy 支持 llava 多模态模型，使用 pipeline 推理 llava-v1.6-7b 最低需要 A100 30% 的 InternStudio 开发机
 
 1、安装 llava 依赖库，参考命令：
 ```bash
@@ -265,7 +266,7 @@ demo.launch()
 ```
 
 3、启动网页服务端
-参考命令 `python /root/demo/cli_llava_web_demo.py` 启动好后在浏览器打开页面，演示效果如下：
+参考命令 `python /root/demo/cli_llava_web_demo.py`，启动好后在浏览器打开页面，演示效果如下：
 ![](./asset/46.png)
 ![](./asset/47.png)
 ![](./asset/48.png)
@@ -285,5 +286,6 @@ demo.launch()
 > - 通过模型量化，可以在推理性能与推理成本之间进行平衡，让大模型以最优的方式应用到需要它的每个地方，让生活列精彩
 
 未解疑问：
+> - 在哪可以查到书生浦语系列不同参数大小的模型硬件需求？
 > - LMDeploy 以 API 服务器方式部署模型，如何同时部署多个模型？每个模型启动一个服务吗？
 > - LMDeploy 用 TurboMind 推理引擎启动时每次都会转换模型，对启动时间影响还是蛮大的，是否可以将转换后的模型缓存起来呢？
