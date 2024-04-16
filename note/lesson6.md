@@ -49,6 +49,7 @@ lmdeploy serve api_server /root/share/new_models/Shanghai_AI_Laboratory/internlm
         --server-port 23333 \
         --model-name internlm2-chat-7b
 ```
+> 说明：基于之前的实验，A100 30% 的开发机加载完 `internlm2-chat-7b` 模型显存还有很多空余，将空余的显存用于 kv cache 来加速模型推理是个更好的选择，此处就去掉指定 kv cache 上限的参数。
 
 ### B、Lagent ArxivSearch Web Demo 试用
 1、启动 Web Demo, 参考命令：
