@@ -1,0 +1,160 @@
+[
+    {
+        "id": "001",
+        "image": "img/01.jpg",
+        "conversations": [
+            {
+                "from": "human",
+                "value": "<image>\n Describe what is in this image"
+            },
+            {
+                "from": "gpt",
+                "value": "A small rabbit is foraging on the ground covered with fallen leaves. The fallen leaves look a little messy. Behind the rabbit are two pumpkins, the left pumpkin is large and orange, and the right pumpkin is relatively small and orange."
+            },
+            {
+                "from": "human",
+                "value": "What does a rabbit look like?"
+            },
+            {
+                "from": "gpt",
+                "value": "The rabbit is white, with two high gray ears and big eyes. It is looking for food carefully."
+            },
+            {
+                "from": "human",
+                "value": "What's behind the rabbit?"
+            },
+            {
+                "from": "gpt",
+                "value": "Two pumpkins"
+            },
+            {
+                "from": "human",
+                "value": "What color is the pumpkin?"
+            },
+            {
+                "from": "gpt",
+                "value": "orange"
+            }
+        ]
+    },
+    {
+        "id": "002",
+        "image": "img/02.jpg",
+        "conversations": [
+            {
+                "from": "human",
+                "value": "<image>\n Describe what is in this image"
+            },
+            {
+                "from": "gpt",
+                "value": "A group of pink flamingos line up to walk fast on the edge of the endless water, and the water surface is slightly wavy under the breeze. There is a very dense grass beside the flamingos, and some dried plant leaves float on the water near the grass."
+            },
+            {
+                "from": "human",
+                "value": "Please describe the flamingo."
+            },
+            {
+                "from": "gpt",
+                "value": "A flock of fast-moving pink flamingos covered with white and pink feathers, with long red feet and a black beak."
+            },
+            {
+                "from": "human",
+                "value": "What color is the grass"
+            },
+            {
+                "from": "gpt",
+                "value": "Grass is yellow above and green below"
+            }
+        ]
+    },
+    {
+        "id": "003",
+        "image": "img/03.jpg",
+        "conversations": [
+            {
+                "from": "human",
+                "value": "<image>\n Describe what is in this image"
+            },
+            {
+                "from": "gpt",
+                "value": "Under the sunny sky, a baby elephant walked slowly on the endless grassland, playing in the warm sunshine, and smelling the grass with its powerful nose."
+            },
+            {
+                "from": "human",
+                "value": "Please describe the grassland."
+            },
+            {
+                "from": "gpt",
+                "value": "endless prairie, close to the prairie looks green, far from the prairie looks dense."
+            },
+            {
+                "from": "human",
+                "value": "What color is the elephant?"
+            },
+            {
+                "from": "gpt",
+                "value": "Grey"
+            }
+        ]
+    },
+    {
+        "id": "004",
+        "image": "img/04.jpg",
+        "conversations": [
+            {
+                "from": "human",
+                "value": "<image>\n Describe what is in this image"
+            },
+            {
+                "from": "gpt",
+                "value": "Two tall giraffes are standing on the ground looking into the distance, with a thick forest on its side and a high mountain in the distance. At the edge of the forest is green grass, and the tree beside the giraffe looks very tall."
+            },
+            {
+                "from": "human",
+                "value": "What color is the giraffe?"
+            },
+            {
+                "from": "gpt",
+                "value": "Brown"
+            },
+            {
+                "from": "human",
+                "value": "What's on the mountain ahead?"
+            },
+            {
+                "from": "gpt",
+                "value": "Dense forest"
+            }
+        ]
+    },
+    {
+        "id": "005",
+        "image": "img/05.jpg",
+        "conversations": [
+            {
+                "from": "human",
+                "value": "<image>\n Describe what is in this image"
+            },
+            {
+                "from": "gpt",
+                "value": "There is a very prominent tree on the endless prairie, under which a giraffe is stretching its neck to eat the green leaves of the tree. The grass under the tree looked a little yellow, and there were two withered stumps on the edge of the tree. In front of the grassland lies a low green forest."
+            },
+            {
+                "from": "human",
+                "value": "Please describe the nearby tree"
+            },
+            {
+                "from": "gpt",
+                "value": "The tree does not look very high, the tree has two branches, the top of the branches grow a lot of branches, the branches are full of green leaves, it looks like a hat for the tree."
+            },
+            {
+                "from": "human",
+                "value": "What's on the grass by the tree?"
+            },
+            {
+                "from": "gpt",
+                "value": "Dead stump and giraffe"
+            }
+        ]
+    }
+]
