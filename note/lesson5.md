@@ -274,7 +274,29 @@ demo.launch()
 ![](./asset/50.png)
 ![](./asset/51.png)
 
-## 六、使用体会总结
+## 六、部署到 OpenXLab
+### A、创建应用项目
+1、在 Github 创建一个项目
+
+先在 Github 创建一个新项目 internlm2_lmdeploy_demo，再按 openXLab 平台 Gradio 应用规范开发应用程序
+
+2、在 openXLab 申请资源
+
+在 openXLab 平台申请可以运行 internlm2_chat_1_8b 模型的硬件资源，如：4vCPU 16GB Nvidia vGPU 8GB
+
+3、在 openXLab 创建 Gradio 应用
+
+在 openXLab 平台创建一个 Gradio 应用，Github 项目地址填写上面的项目地址
+
+4、发布项目
+
+在 openXLab 平台测试应用，没问题就可以公开发布
+
+### B、在线体验
+在浏览器中打开 https://openxlab.org.cn/apps/detail/csg2008/internlm2_lmdeploy_demo
+
+
+## 七、使用体会总结
 首先，大语言模型的理解能力非常强大，能够理解复杂的语境、推理出隐含的含义，甚至能够生成连贯的文本，这使得在文本生成、问答、多模态等任务上表现出色。然而，使用大语言模型也存在一些挑战：
 > - 模型的决策过程往往是黑箱的，这使得很难理解模型为什么会做出特定的决策。
 > - 模型的性能往往取决于训练数据的质量和多样性，如果训练数据不足或者不准确，模型的性能可能会受到影响。

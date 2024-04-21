@@ -1067,7 +1067,28 @@ xtuner chat /root/share/new_models/Shanghai_AI_Laboratory/internlm2-chat-1_8b \
 ![](./asset/69.png)
 
 ## 四、部署到 OpenXLab
+### A、发布模型
+登录 openXLab 后台，创建模型后按提示发布模型
 
+### B、创建应用项目
+1、在 Github 创建一个项目
+
+先在 Github 创建一个新项目 internlm2_chat_1_8b_demo，再按 openXLab 平台 Gradio 应用规范开发应用程序
+
+2、在 openXLab 申请资源
+
+在 openXLab 平台申请可以运行 internlm2_chat_1_8b 模型的硬件资源，如：4vCPU 16GB Nvidia vGPU 8GB
+
+3、在 openXLab 创建 Gradio 应用
+
+在 openXLab 平台创建一个 Gradio 应用，Github 项目地址填写上面的项目地址
+
+4、发布项目
+
+在 openXLab 平台测试应用，没问题就可以公开发布
+
+### C、在线体验
+在浏览器中打开 https://openxlab.org.cn/apps/detail/csg2008/internlm2_chat_1_8b_demo
 
 ## 五、XTuner 微调体验总结
 通过多次修改数据集后微调模型验证了教程上说的，高质量的数据集是微调出更好质量的基础，糟糕的数据集还会使模型微调后效果更差。
