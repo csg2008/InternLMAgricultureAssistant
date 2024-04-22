@@ -76,7 +76,7 @@ python run.py \
 
 3、在 opencompass 中开发数据集配置文件与数据集加载器
 - 在 opencompass 源码的 configs/datasets 目录中创建数据集同名的文件夹，在此文件夹中创建数据集同名的数据保配置文件
-- 在 closecompass 源码的 opencompass/datasets 目录中创建数据集同名的数据集加载器
+- 在 opencompass 源码的 opencompass/datasets 目录中创建数据集同名的数据集加载器
 
 > 说明：当前只有数据集介绍，评测数据还是空的
 
