@@ -434,7 +434,7 @@ log_processor = dict(by_epoch=False)
 ]
 ```
 
-> 说明：做好微调训练数据集后可以将数据保存到上面配置中的文件路径，如： `/root/ft/data/dataset.json`
+> 说明：做好微调训练数据集后可以将数据保存到上面配置中的文件路径，如： [/root/ft/data/dataset.json](./dataset/llm/dataset.json)
 
 ### D、开始训练
 准备好配置文件后只需使用 xtuner train 结合内置的 deepspeed 开始微调训练，参考命令:
@@ -757,7 +757,7 @@ xtuner chat /root/ft/model --adapter /root/ft/huggingface --prompt-template inte
 
 3、准备数据集
 
-按上面的格式要求制作数据集，然后保存到  `/root/ft/data/llava/`，数据集目录结构：
+按上面的格式要求制作数据集，然后保存到 [/root/ft/data/llava](./dataset/llava/dataset_en.json)，数据集目录结构：
 ```
 │- dataset.json
 │- dataset_en.json
@@ -769,6 +769,8 @@ xtuner chat /root/ft/model --adapter /root/ft/huggingface --prompt-template inte
     │- 05.jpg
     └─ 06.jpg
 ```
+
+> 说明：经过测试发现预训练的 llava 模型对中文支持不好，此英文数据集是由中文数据集基于有道翻译而来
 
 4、准备配置文件
 
@@ -1062,7 +1064,7 @@ xtuner chat /root/share/new_models/Shanghai_AI_Laboratory/internlm2-chat-1_8b \
   --image /root/ft/data/llava/img/06.jpg
 ```
 
-通过对比微调前后的模型来看，微调后的模型可以认出图片上更多的细节，详见下图：
+通过对比微调前后的模型来看，微调后的模型可以认出未参与训练图片上更多的细节，详见下图：
 ![](dataset/llava/img/06.jpg)
 ![](./asset/69.png)
 
