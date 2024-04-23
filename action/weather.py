@@ -26,7 +26,7 @@ class WeatherQuery(BaseAction):
 
     @tool_api
     def run(self, query: str) -> ActionReturn:
-        """一个天气查询API。可以根据城市名查询天气信息。
+        """根据城市名查询天气信息。
 
         Args:
             query (:class:`str`): The city name to query.
