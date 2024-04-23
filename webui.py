@@ -1,10 +1,11 @@
+import os
 import copy
 import json
 from typing import List
 
 import streamlit as st
 
-from lagent.actions import ArxivSearch, ActionExecutor, IPythonInterpreter
+from lagent.actions import ActionExecutor, IPythonInterpreter
 from lagent.agents.internlm2_agent import Internlm2Agent, Internlm2Protocol
 from lagent.llms import HFTransformer
 from lagent.llms.meta_template import INTERNLM2_META as META
@@ -12,6 +13,7 @@ from lagent.schema import AgentStatusCode
 from lagent.actions.base_action import BaseAction
 
 from action.weather import WeatherQuery
+from action.knowledge import KnowledgeQuery
 
 class StreamlitUI:
     """Streamlit UI class."""
@@ -27,9 +29,12 @@ class StreamlitUI:
     def get_actions(self) -> List[BaseAction]:
         """Get the plugin actions."""
 
+        db_path = os.path.dirname(os.path.abspath(__file__)) + '/data/vector_db'
+        embedding_path = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
+
         return [
-            ArxivSearch(),
             WeatherQuery(),
+            KnowledgeQuery(db_path, embedding_path),
     ]
 
     def initialize_chatbot(self):
