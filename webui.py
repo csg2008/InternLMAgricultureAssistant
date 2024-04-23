@@ -1,14 +1,17 @@
 import copy
 import json
+from typing import List
 
 import streamlit as st
 
-from lagent.actions import ActionExecutor, IPythonInterpreter
+from lagent.actions import ArxivSearch, ActionExecutor, IPythonInterpreter
 from lagent.agents.internlm2_agent import Internlm2Agent, Internlm2Protocol
 from lagent.llms import HFTransformer
 from lagent.llms.meta_template import INTERNLM2_META as META
 from lagent.schema import AgentStatusCode
+from lagent.actions.base_action import BaseAction
 
+from action.weather import WeatherQuery
 
 class StreamlitUI:
     """Streamlit UI class."""
@@ -20,6 +23,14 @@ class StreamlitUI:
 
         if 'chatbot' in st.session_state:
             st.session_state['chatbot']._session_history = []
+
+    def get_actions(self) -> List[BaseAction]:
+        """Get the plugin actions."""
+
+        return [
+            ArxivSearch(),
+            WeatherQuery(),
+    ]
 
     def initialize_chatbot(self):
         """Initialize the chatbot with the given model and plugin actions."""
@@ -37,7 +48,7 @@ class StreamlitUI:
 
             st.session_state['chatbot'] = Internlm2Agent(
                 llm=model,
-                plugin_executor=ActionExecutor(actions=st.session_state['model']['plugin_map']),
+                plugin_executor=ActionExecutor(actions=self.get_actions()),
                 interpreter_executor = ActionExecutor(actions=[IPythonInterpreter()]),
                 protocol=Internlm2Protocol(
                     meta_prompt=st.session_state['model']['prompt_meta'],

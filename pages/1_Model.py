@@ -1,5 +1,4 @@
 import streamlit as st
-from lagent.actions import ArxivSearch
 from lagent.agents.internlm2_agent import INTERPRETER_CN, META_CN, PLUGIN_CN
 
 model_cfg = {
@@ -19,10 +18,6 @@ model_cfg = {
     'user': [],
     'assistant': [],
     'session_history': [],
-
-    'plugin_map': [
-        ArxivSearch(),
-    ]
 }
 
 if 'model' not in st.session_state:
