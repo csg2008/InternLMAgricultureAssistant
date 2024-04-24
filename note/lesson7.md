@@ -38,7 +38,7 @@ cd /root/opencompass/
 unzip /share/temp/datasets/OpenCompassData-core-20231110.zip
 
 # 查看与 internlm2-chat-1.8B 相关的 C-Eval 评测数据集
-python tools/list_configs.py internlm2-chat-1_8b ceval
+python tools/list_configs.py internlm2_chat_1_8b ceval
 ```
 
 通过上面的命令可以看到以下评测集：
