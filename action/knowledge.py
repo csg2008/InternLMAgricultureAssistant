@@ -23,12 +23,12 @@ class KnowledgeQuery(BaseAction):
 
         if template is None:
             self.template = """请使用以下提供的上下文来回答用户的问题。如果无法从上下文中得到答案，请回答你不知道，并总是使用中文回答。
-            提供的上下文：
-            ···
-            {context}
-            ···
-            用户的问题: {question}
-            你给的回答:"""
+提供的上下文：
+···
+{context}
+···
+用户的问题: {question}
+你给的回答:"""
         else:
             self.template = template
 
@@ -43,14 +43,19 @@ class KnowledgeQuery(BaseAction):
             :class:`str`: article information
         """
         context = []
+        question = query
+        tool_return = ActionReturn(type=self.name)
         docs = self.Retriever.get_relevant_documents(query)
         if docs and len(docs) > 0:
             for doc in docs:
                 context.append(doc.page_content)
 
-            return self.template.replace('{context}', "\n-------\n".join(context)).replace('{question}', query)
 
-        return query
+            question = self.template.replace('{context}', "\n-------\n".join(context)).replace('{question}', query)
+
+        tool_return.result = [dict(type='text', content=question)]
+
+        return tool_return
 
     def build_vector_retriever(self, db_path: str, embedding_model: str) -> VectorStoreRetriever:
         """
