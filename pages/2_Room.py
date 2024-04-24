@@ -1,10 +1,17 @@
+import json
+import os
 import streamlit as st
+
+from pages.util.util import load_config, save_config
 
 room_cfg = {
     'idx': 0,
     'name': '农业大棚',
     'room': {},
 }
+
+if 'room' not in st.session_state:
+    load_config()
 
 if 'room' not in st.session_state:
     st.session_state['room'] = room_cfg
@@ -25,7 +32,7 @@ else:
                 st.warning('当前房间还没有设备，请先添加设备')
             else:
                 for dk, dv in v['drivers'].items():
-                    inp = st.toggle(dv['name'], key = f'toggle_{k}_{dk}')
+                    inp = st.toggle(dv['name'], key = f'toggle_{k}_{dk}', value = dv['status'])
 
                     if inp:
                         st.session_state['room']['room'][k]['drivers'][dk]['status'] = True
@@ -83,6 +90,8 @@ btn_create_room = col2.button('创建房间')
 
 if btn_save:
     st.session_state['room']['name'] = name
+
+    save_config()
 
 if btn_create_room:
     st.session_state['room']['idx'] += 1

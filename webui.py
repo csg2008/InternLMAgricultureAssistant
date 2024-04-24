@@ -12,6 +12,7 @@ from lagent.llms.meta_template import INTERNLM2_META as META
 from lagent.schema import AgentStatusCode
 from lagent.actions.base_action import BaseAction
 
+from pages.util.util import load_config
 from action.device import DeviceAssistant
 from action.weather import WeatherQuery
 from action.knowledge import KnowledgeQuery
@@ -203,6 +204,9 @@ def init_ui():
 
 st.set_page_config(page_title='智慧大棚中心 - 农业助手', layout='wide')
 st.title('🤠 智慧大棚中心')
+
+if 'model' not in st.session_state or 'room' not in st.session_state:
+    load_config()
 
 if 'model' not in st.session_state:
     with st.container():
