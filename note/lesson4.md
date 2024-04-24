@@ -1092,6 +1092,10 @@ xtuner chat /root/share/new_models/Shanghai_AI_Laboratory/internlm2-chat-1_8b \
 ### C、在线体验
 在浏览器中打开 https://openxlab.org.cn/apps/detail/csg2008/internlm2_chat_1_8b_demo
 
+> 由于在 openXLab 申请的 GPU 资源没通过，以下是在 InternStudio 平台部署效果：
+
+![](./asset/75.png)
+
 ## 五、XTuner 微调体验总结
 通过多次修改数据集后微调模型验证了教程上说的，高质量的数据集是微调出更好质量的基础，糟糕的数据集还会使模型微调后效果更差。
 

@@ -295,6 +295,9 @@ demo.launch()
 ### B、在线体验
 在浏览器中打开 https://openxlab.org.cn/apps/detail/csg2008/internlm2_lmdeploy_demo
 
+> 由于在 openXLab 申请的 GPU 资源没通过，以下是在 InternStudio 平台部署效果：
+
+![](./asset/76.png)
 
 ## 七、使用体会总结
 首先，大语言模型的理解能力非常强大，能够理解复杂的语境、推理出隐含的含义，甚至能够生成连贯的文本，这使得在文本生成、问答、多模态等任务上表现出色。然而，使用大语言模型也存在一些挑战：
