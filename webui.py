@@ -12,6 +12,7 @@ from lagent.llms.meta_template import INTERNLM2_META as META
 from lagent.schema import AgentStatusCode
 from lagent.actions.base_action import BaseAction
 
+from action.device import DeviceAssistant
 from action.weather import WeatherQuery
 from action.knowledge import KnowledgeQuery
 
@@ -33,6 +34,7 @@ class StreamlitUI:
         embedding_path = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
 
         return [
+            DeviceAssistant(),
             WeatherQuery(),
             KnowledgeQuery(db_path, embedding_path),
     ]
