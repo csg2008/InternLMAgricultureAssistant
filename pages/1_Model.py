@@ -1,5 +1,3 @@
-import json
-import os
 import streamlit as st
 from lagent.agents.internlm2_agent import INTERPRETER_CN, META_CN, PLUGIN_CN
 
