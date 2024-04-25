@@ -1,4 +1,3 @@
-import os
 import copy
 import json
 from typing import List
@@ -8,7 +7,6 @@ import streamlit as st
 from lagent.actions import ActionExecutor, IPythonInterpreter
 from lagent.agents.internlm2_agent import Internlm2Agent, Internlm2Protocol
 from lagent.llms import HFTransformer
-from lagent.llms.meta_template import INTERNLM2_META as META
 from lagent.schema import AgentStatusCode
 from lagent.actions.base_action import BaseAction
 
@@ -31,13 +29,13 @@ class StreamlitUI:
     def get_actions(self) -> List[BaseAction]:
         """Get the plugin actions."""
 
-        db_path = os.path.dirname(os.path.abspath(__file__)) + '/data/vector_db'
-        embedding_path = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
-
         return [
             DeviceAssistant(),
             WeatherQuery(),
-            KnowledgeQuery(db_path, embedding_path),
+            KnowledgeQuery(
+                db_path = st.session_state['model']['vector_db'],
+                embedding_model = st.session_state['model']['embedding_path']
+            ),
     ]
 
     def initialize_chatbot(self):
@@ -45,12 +43,12 @@ class StreamlitUI:
         if 'chatbot' not in st.session_state:
             model = HFTransformer(
                 path=st.session_state['model']['model_path'],
-                meta_template=META,
-                max_new_tokens=1024,
-                top_p=0.8,
-                top_k=None,
-                temperature=0.1,
-                repetition_penalty=1.0,
+                meta_template=st.session_state['model']['prompt_meta'],
+                max_new_tokens=st.session_state['model']['max_tokens'],
+                top_p=st.session_state['model']['top_p'],
+                top_k=st.session_state['model']['top_k'],
+                temperature=st.session_state['model']['temperature'],
+                repetition_penalty=st.session_state['model']['presence_penalty'],
                 stop_words=['<|im_end|>']
             )
 

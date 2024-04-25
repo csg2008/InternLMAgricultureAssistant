@@ -10,8 +10,9 @@ model_cfg = {
     'embedding_path': '',
 
     'temperature': 0.7,
-    'max_tokens': 256,
-    'top_p': 1,
+    'max_tokens': 1024,
+    'top_p': 0.8,
+    'top_k': 1,
     'frequency_penalty': 0,
     'presence_penalty': 0,
 
@@ -43,7 +44,8 @@ embedding_path = st.text_input('词嵌入路径', value=st.session_state['model'
 vector_db = st.text_input('向量库路径', value=st.session_state['model']['vector_db'], max_chars=None, key=None, type='default', placeholder = '请输入向量数据库路径')
 temperature = st.text_input('温度', value=st.session_state['model']['temperature'], max_chars=None, key=None, type='default', placeholder = '请输入温度')
 max_tokens = st.text_input('最大令牌数', value=st.session_state['model']['max_tokens'], max_chars=None, key=None, type='default', placeholder = '请输入最大令牌数')
-top_p = st.text_input('置信度', value=st.session_state['model']['top_p'], max_chars=None, key=None, type='default', placeholder = '请输入置信度')
+top_p = st.text_input('Token 候选率', value=st.session_state['model']['top_p'], max_chars=None, key=None, type='default', placeholder = '请输入Token 候选率')
+top_k = st.text_input('Token 候选数', value=st.session_state['model']['top_k'], max_chars=None, key=None, type='default', placeholder = '请输入Token 候选数')
 frequency_penalty = st.text_input('频率惩罚', value=st.session_state['model']['frequency_penalty'], max_chars=None, key=None, type='default', placeholder = '请输入频率惩罚')
 presence_penalty = st.text_input('位置惩罚', value=st.session_state['model']['presence_penalty'], max_chars=None, key=None, type='default', placeholder = '请输入位置惩罚')
 prompt_meta = st.text_area('系统提示词', value=st.session_state['model']['prompt_meta'], max_chars=None, key=None, placeholder = '请输入系统提示词')
@@ -62,6 +64,7 @@ if saved:
     st.session_state['model']['temperature'] = float(temperature)
     st.session_state['model']['max_tokens'] = int(max_tokens)
     st.session_state['model']['top_p'] = float(top_p)
+    st.session_state['model']['top_k'] = float(top_k)
     st.session_state['model']['frequency_penalty'] = float(frequency_penalty)
     st.session_state['model']['presence_penalty'] = float(presence_penalty)
 
