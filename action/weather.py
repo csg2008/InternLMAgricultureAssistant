@@ -24,12 +24,15 @@ class WeatherQuery(BaseAction):
         self.location_query_url = 'https://geoapi.qweather.com/v2/city/lookup'
         self.weather_query_url = 'https://devapi.qweather.com/v7/weather/now'
 
-    @tool_api
+    @tool_api(explode_return=True)
     def run(self, query: str) -> ActionReturn:
         """根据城市名查询天气信息。
 
         Args:
             query (:class:`str`): The city name to query.
+
+        Returns:
+            :class:`str`: temperature information
         """
         tool_return = ActionReturn(type=self.name)
         status_code, response = self._search(query)

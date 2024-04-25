@@ -6,9 +6,14 @@ from lagent.schema import ActionReturn, ActionStatusCode
 class DeviceAssistant(BaseAction):
     """智慧大棚助手"""
 
-    @tool_api
+    @tool_api(explode_return=True)
     def introduce(self) -> ActionReturn:
-        """介绍智慧大棚助手"""
+        """
+        介绍智慧大棚助手
+
+        Returns:
+            :class:`str`: 大棚及房间信息
+        """
 
         msg = []
         room = []
@@ -32,13 +37,16 @@ class DeviceAssistant(BaseAction):
             tool_return.state = ActionStatusCode.API_ERROR
         return tool_return
 
-    @tool_api
+    @tool_api(explode_return=True)
     def query_room(self, query: str) -> ActionReturn:
         """
         查询房间信息
 
         Args:
             query (:class:`str`): 要查询的房间名称
+
+        Returns:
+            :class:`str`: 房间信息
         """
 
         msg = []
@@ -77,7 +85,7 @@ class DeviceAssistant(BaseAction):
             tool_return.state = ActionStatusCode.API_ERROR
         return tool_return
 
-    @tool_api
+    @tool_api(explode_return=True)
     def driver_open(self, room: str, driver: str, state: str) -> ActionReturn:
         """
         开启/关闭房间内设备
@@ -86,6 +94,9 @@ class DeviceAssistant(BaseAction):
             room (:class:`str`): 房间名称
             driver (:class:`str`): 设备名称
             state (:class:`bool`): 开启/关闭
+
+        Returns:
+            :class:`str`: 操作状态
         """
 
         operator_state = False

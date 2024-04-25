@@ -32,7 +32,7 @@ class KnowledgeQuery(BaseAction):
         else:
             self.template = template
 
-    @tool_api
+    @tool_api(explode_return=True)
     def run(self, query: str) -> ActionReturn:
         """根据查询从知识库搜索文章信息.
 
