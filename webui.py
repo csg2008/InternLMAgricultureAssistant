@@ -7,6 +7,8 @@ import streamlit as st
 from lagent.actions import ActionExecutor, IPythonInterpreter
 from lagent.agents.internlm2_agent import Internlm2Agent, Internlm2Protocol
 from lagent.llms import HFTransformer
+from lagent.llms.meta_template import INTERNLM2_META
+from lagent.llms.lmdepoly_wrapper import LMDeployClient
 from lagent.schema import AgentStatusCode
 from lagent.actions.base_action import BaseAction
 
@@ -36,21 +38,34 @@ class StreamlitUI:
                 db_path = st.session_state['model']['vector_db'],
                 embedding_model = st.session_state['model']['embedding_path']
             ),
-    ]
+        ]
 
     def initialize_chatbot(self):
         """Initialize the chatbot with the given model and plugin actions."""
         if 'chatbot' not in st.session_state:
-            model = HFTransformer(
-                path=st.session_state['model']['model_path'],
-                meta_template=st.session_state['model']['prompt_meta'],
-                max_new_tokens=st.session_state['model']['max_tokens'],
-                top_p=st.session_state['model']['top_p'],
-                top_k=st.session_state['model']['top_k'],
-                temperature=st.session_state['model']['temperature'],
-                repetition_penalty=st.session_state['model']['presence_penalty'],
-                stop_words=['<|im_end|>']
-            )
+            if '远程' == st.session_state['model']['model_type']:
+                model = LMDeployClient(
+                    model_name=st.session_state['model']['model_name'],
+                    url=st.session_state['model']['model_path'],
+                    meta_template=INTERNLM2_META,
+                    max_new_tokens=st.session_state['model']['max_tokens'],
+                    top_p=st.session_state['model']['top_p'],
+                    top_k=st.session_state['model']['top_k'],
+                    temperature=st.session_state['model']['temperature'],
+                    repetition_penalty=st.session_state['model']['presence_penalty'],
+                    stop_words=['<|im_end|>']
+                )
+            else:
+                model = HFTransformer(
+                    path=st.session_state['model']['model_path'],
+                    meta_template=INTERNLM2_META,
+                    max_new_tokens=st.session_state['model']['max_tokens'],
+                    top_p=st.session_state['model']['top_p'],
+                    top_k=st.session_state['model']['top_k'],
+                    temperature=st.session_state['model']['temperature'],
+                    repetition_penalty=st.session_state['model']['presence_penalty'],
+                    stop_words=['<|im_end|>']
+                )
 
             st.session_state['chatbot'] = Internlm2Agent(
                 llm=model,
