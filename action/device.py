@@ -106,7 +106,7 @@ class DeviceAssistant(BaseAction):
             for _, v in st.session_state['room']['room'].items():
                 if v['name'] == room:
                     for _, dv in v['drivers'].items():
-                        if dv['name'] == driver:
+                        if dv['name'] == driver or dv['id'] == driver:
                             if '开启' == state:
                                 dv['status'] = True
                             else:
