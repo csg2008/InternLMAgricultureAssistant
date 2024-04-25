@@ -295,7 +295,11 @@ demo.launch()
 ### B、在线体验
 在浏览器中打开 https://openxlab.org.cn/apps/detail/csg2008/internlm2_lmdeploy_demo
 
-> 由于在 openXLab 申请的 GPU 资源没通过，以下是在 InternStudio 平台部署效果：
+> 以下是在 OpenXLab 平台部署演示效果：
+
+![](./asset/78.png)
+
+> 以下是在 InternStudio 平台部署演示效果：
 
 ![](./asset/76.png)
 

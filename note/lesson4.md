@@ -1092,7 +1092,11 @@ xtuner chat /root/share/new_models/Shanghai_AI_Laboratory/internlm2-chat-1_8b \
 ### C、在线体验
 在浏览器中打开 https://openxlab.org.cn/apps/detail/csg2008/internlm2_chat_1_8b_demo
 
-> 由于在 openXLab 申请的 GPU 资源没通过，以下是在 InternStudio 平台部署效果：
+> 以下是在 OpenXLab 平台部署演示效果：
+
+![](./asset/77.png)
+
+> 以下是在 InternStudio 平台部署演示效果：
 
 ![](./asset/75.png)
 
