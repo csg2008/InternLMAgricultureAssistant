@@ -1,8 +1,10 @@
 import json
 import os
+from typing import List
 import streamlit as st
 
 config_save_keys = ['room', 'model']
+model_require_keys = ['model_name', 'model_path', 'model_type', 'embedding_path', 'vector_db']
 config_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + '/data/config.json'
 
 def load_config():
@@ -28,3 +30,13 @@ def save_config():
                 config_dict[k] = org_state[k]
 
         json.dump(config_dict, f, ensure_ascii=False, indent=4)
+
+def check_config_empty(cfg, keys: List[str]) -> bool:
+    '''Check if config is empty'''
+
+    for k in keys:
+        if k not in cfg or cfg[k] is None or cfg[k] == '':
+            print('k:', k)
+            return True
+
+    return False

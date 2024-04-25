@@ -12,7 +12,7 @@ from lagent.llms.meta_template import INTERNLM2_META as META
 from lagent.schema import AgentStatusCode
 from lagent.actions.base_action import BaseAction
 
-from pages.util.util import load_config
+from pages.util.util import load_config, check_config_empty, model_require_keys
 from action.device import DeviceAssistant
 from action.weather import WeatherQuery
 from action.knowledge import KnowledgeQuery
@@ -208,7 +208,7 @@ st.title('🤠 智慧大棚中心')
 if 'model' not in st.session_state or 'room' not in st.session_state:
     load_config()
 
-if 'model' not in st.session_state:
+if 'model' not in st.session_state or check_config_empty(st.session_state['model'], model_require_keys):
     with st.container():
         st.warning('请先配置书生·浦语模型参数')
 elif 'room' not in st.session_state or 'room' not in st.session_state['room'] or 0 == len(st.session_state['room']['room']):

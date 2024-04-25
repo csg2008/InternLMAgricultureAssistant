@@ -40,6 +40,7 @@ model_type = st.radio("模型类型", ["本地", "远程"], index=model_type_key
 model_name = st.text_input('模型名', value=st.session_state['model']['model_name'], max_chars=None, key=None, type='default', placeholder = '请输入语言模型名称')
 model_path = st.text_input('模型路径', value=st.session_state['model']['model_path'], max_chars=None, key=None, type='default', placeholder = '请输入语言模型路径')
 embedding_path = st.text_input('词嵌入路径', value=st.session_state['model']['embedding_path'], max_chars=None, key=None, type='default', placeholder = '请输入词嵌入路径')
+vector_db = st.text_input('向量库路径', value=st.session_state['model']['vector_db'], max_chars=None, key=None, type='default', placeholder = '请输入向量数据库路径')
 temperature = st.text_input('温度', value=st.session_state['model']['temperature'], max_chars=None, key=None, type='default', placeholder = '请输入温度')
 max_tokens = st.text_input('最大令牌数', value=st.session_state['model']['max_tokens'], max_chars=None, key=None, type='default', placeholder = '请输入最大令牌数')
 top_p = st.text_input('置信度', value=st.session_state['model']['top_p'], max_chars=None, key=None, type='default', placeholder = '请输入置信度')
@@ -55,6 +56,7 @@ if saved:
     st.session_state['model']['model_name'] = model_name
     st.session_state['model']['model_path'] = model_path
     st.session_state['model']['embedding_path'] = embedding_path
+    st.session_state['model']['vector_db'] = vector_db
     st.session_state['model']['prompt_meta'] = prompt_meta
     st.session_state['model']['prompt_plugin'] = prompt_plugin
     st.session_state['model']['temperature'] = float(temperature)
