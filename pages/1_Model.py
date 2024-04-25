@@ -7,6 +7,7 @@ model_cfg = {
     'model_type': '远程',
     'model_name': 'internlm2-chat-7b',
     'model_path': 'http://127.0.0.1:23333',
+    'embedding_path': '',
 
     'temperature': 0.7,
     'max_tokens': 256,
@@ -36,8 +37,9 @@ st.set_page_config(page_title='书生·浦语大模型设置 - 农业助手', la
 st.title('书生·浦语大模型设置')
 
 model_type = st.radio("模型类型", ["本地", "远程"], index=model_type_key, key="model_type", horizontal=True)
-model_name = st.text_input('模型名', value=st.session_state['model']['model_name'], max_chars=None, key=None, type='default', placeholder = '请输入模型名称')
-model_path = st.text_input('模型路径', value=st.session_state['model']['model_path'], max_chars=None, key=None, type='default', placeholder = '请输入模型路径')
+model_name = st.text_input('模型名', value=st.session_state['model']['model_name'], max_chars=None, key=None, type='default', placeholder = '请输入语言模型名称')
+model_path = st.text_input('模型路径', value=st.session_state['model']['model_path'], max_chars=None, key=None, type='default', placeholder = '请输入语言模型路径')
+embedding_path = st.text_input('词嵌入路径', value=st.session_state['model']['embedding_path'], max_chars=None, key=None, type='default', placeholder = '请输入词嵌入路径')
 temperature = st.text_input('温度', value=st.session_state['model']['temperature'], max_chars=None, key=None, type='default', placeholder = '请输入温度')
 max_tokens = st.text_input('最大令牌数', value=st.session_state['model']['max_tokens'], max_chars=None, key=None, type='default', placeholder = '请输入最大令牌数')
 top_p = st.text_input('置信度', value=st.session_state['model']['top_p'], max_chars=None, key=None, type='default', placeholder = '请输入置信度')
@@ -52,12 +54,13 @@ if saved:
     st.session_state['model']['model_type'] = model_type
     st.session_state['model']['model_name'] = model_name
     st.session_state['model']['model_path'] = model_path
+    st.session_state['model']['embedding_path'] = embedding_path
     st.session_state['model']['prompt_meta'] = prompt_meta
     st.session_state['model']['prompt_plugin'] = prompt_plugin
-    st.session_state['model']['temperature'] = temperature
-    st.session_state['model']['max_tokens'] = max_tokens
-    st.session_state['model']['top_p'] = top_p
-    st.session_state['model']['frequency_penalty'] = frequency_penalty
-    st.session_state['model']['presence_penalty'] = presence_penalty
+    st.session_state['model']['temperature'] = float(temperature)
+    st.session_state['model']['max_tokens'] = int(max_tokens)
+    st.session_state['model']['top_p'] = float(top_p)
+    st.session_state['model']['frequency_penalty'] = float(frequency_penalty)
+    st.session_state['model']['presence_penalty'] = float(presence_penalty)
 
     save_config()
