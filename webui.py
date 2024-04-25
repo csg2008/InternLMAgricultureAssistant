@@ -4,18 +4,13 @@ from typing import List
 
 import streamlit as st
 
-from lagent.actions import ActionExecutor, IPythonInterpreter
+from lagent.actions import BaseAction, ActionExecutor, IPythonInterpreter
 from lagent.agents.internlm2_agent import Internlm2Agent, Internlm2Protocol
-from lagent.llms import HFTransformer
-from lagent.llms.meta_template import INTERNLM2_META
-from lagent.llms.lmdepoly_wrapper import LMDeployClient
+from lagent.llms import HFTransformer, LMDeployClient, INTERNLM2_META
 from lagent.schema import AgentStatusCode
-from lagent.actions.base_action import BaseAction
 
 from pages.util.util import load_config, check_config_empty, model_require_keys
-from action.device import DeviceAssistant
-from action.weather import WeatherQuery
-from action.knowledge import KnowledgeQuery
+from action import WeatherQuery, KnowledgeQuery, DeviceAssistant
 
 class StreamlitUI:
     """Streamlit UI class."""
@@ -52,7 +47,7 @@ class StreamlitUI:
                     top_p=st.session_state['model']['top_p'],
                     top_k=st.session_state['model']['top_k'],
                     temperature=st.session_state['model']['temperature'],
-                    repetition_penalty=st.session_state['model']['presence_penalty'],
+                    repetition_penalty=1.0,
                     stop_words=['<|im_end|>']
                 )
             else:
@@ -63,7 +58,7 @@ class StreamlitUI:
                     top_p=st.session_state['model']['top_p'],
                     top_k=st.session_state['model']['top_k'],
                     temperature=st.session_state['model']['temperature'],
-                    repetition_penalty=st.session_state['model']['presence_penalty'],
+                    repetition_penalty=1.0,
                     stop_words=['<|im_end|>']
                 )
 

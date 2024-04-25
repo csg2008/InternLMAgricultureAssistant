@@ -12,7 +12,7 @@ model_cfg = {
     'temperature': 0.7,
     'max_tokens': 1024,
     'top_p': 0.8,
-    'top_k': 1,
+    'top_k': 100,
     'frequency_penalty': 0,
     'presence_penalty': 0,
 
