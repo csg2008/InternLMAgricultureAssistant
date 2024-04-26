@@ -12,7 +12,7 @@ class DeviceAssistant(BaseAction):
         介绍智慧大棚助手
 
         Returns:
-            :class:`str`: 大棚及房间信息
+            :class:`str`: 大棚及房间基本信息
         """
 
         msg = []
@@ -21,6 +21,7 @@ class DeviceAssistant(BaseAction):
 
         if 'room' in st.session_state:
             msg.append('大棚名称：' + st.session_state['room']['name'])
+            msg.append('大棚简介：' + st.session_state['room']['description'])
 
             for _, v in st.session_state['room']['room'].items():
                 room.append(v['name'])
@@ -46,7 +47,7 @@ class DeviceAssistant(BaseAction):
             query (:class:`str`): 要查询的房间名称
 
         Returns:
-            :class:`str`: 房间信息
+            :class:`str`: 房间中的设备及状态信息
         """
 
         msg = []
@@ -86,20 +87,21 @@ class DeviceAssistant(BaseAction):
         return tool_return
 
     @tool_api(explode_return=True)
-    def driver_open(self, room: str, driver: str, state: str) -> ActionReturn:
+    def driver_operator(self, room: str, driver: str, operator: str) -> ActionReturn:
         """
-        开启/关闭房间内设备
+        操作房间内设备
 
         Args:
             room (:class:`str`): 房间名称
             driver (:class:`str`): 设备名称
-            state (:class:`bool`): 开启/关闭
+            operator (:class:`enum`): 操作动作: `开启` 表示开启设备, `关闭` 表示关闭设备
 
         Returns:
             :class:`str`: 操作状态
         """
 
         operator_state = False
+        operator_error = False
         tool_return = ActionReturn(type=self.name)
 
         if 'room' in st.session_state:
@@ -107,10 +109,12 @@ class DeviceAssistant(BaseAction):
                 if v['name'] == room:
                     for _, dv in v['drivers'].items():
                         if dv['name'] == driver or dv['id'] == driver:
-                            if '开启' == state:
+                            if '开启' == operator or 'open' == operator:
                                 dv['status'] = True
-                            else:
+                            elif '关闭' == operator or 'close' == operator:
                                 dv['status'] = False
+                            else:
+                                operator_error = True
 
                             operator_state = True
                             break
@@ -118,9 +122,12 @@ class DeviceAssistant(BaseAction):
                 break
 
             if operator_state:
-                tool_return.result = [dict(type='text', content='操作成功')]
+                if operator_error:
+                    tool_return.result = [dict(type='text', content='操作失败, 未知操作')]
+                else:
+                    tool_return.result = [dict(type='text', content='操作成功')]
             else:
-                tool_return.result = [dict(type='text', content='操作失败')]
+                tool_return.result = [dict(type='text', content='操作失败, 未找到该设备')]
 
             tool_return.state = ActionStatusCode.SUCCESS
         else:
