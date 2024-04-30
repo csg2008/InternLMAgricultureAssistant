@@ -1,6 +1,6 @@
 import streamlit as st
 
-from pages.util.util import load_config, save_config
+from utils.config import load_config, save_config
 
 room_cfg = {
     'idx': 0,

@@ -1,7 +1,7 @@
 import streamlit as st
 from lagent.agents.internlm2_agent import INTERPRETER_CN, META_CN, PLUGIN_CN
 
-from pages.util.util import load_config, save_config
+from utils.config import load_config, save_config
 
 model_cfg = {
     'model_type': '远程',

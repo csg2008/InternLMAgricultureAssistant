@@ -5,7 +5,7 @@ import streamlit as st
 
 config_save_keys = ['room', 'model']
 model_require_keys = ['model_name', 'model_path', 'model_type', 'embedding_path', 'vector_db']
-config_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + '/data/config.json'
+config_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/data/config.json'
 
 def load_config():
     """load config from config.json"""

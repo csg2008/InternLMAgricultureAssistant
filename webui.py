@@ -9,7 +9,7 @@ from lagent.agents.internlm2_agent import Internlm2Agent, Internlm2Protocol
 from lagent.llms import HFTransformer, LMDeployClient, INTERNLM2_META
 from lagent.schema import AgentStatusCode
 
-from pages.util.util import load_config, check_config_empty, model_require_keys
+from utils.config import load_config, check_config_empty, model_require_keys
 from action import WeatherQuery, KnowledgeQuery, DeviceAssistant
 
 class StreamlitUI:
@@ -74,7 +74,8 @@ class StreamlitUI:
                         begin='{start_token}{name}\n',
                         start_token='<|action_start|>',
                         name_map=dict(
-                            plugin='<|plugin|>', interpreter='<|interpreter|>'),
+                            plugin='<|plugin|>',
+                            interpreter='<|interpreter|>'),
                         belong='assistant',
                         end='<|action_end|>\n',
                     ), ),
@@ -121,7 +122,7 @@ class StreamlitUI:
 
     def render_action_results(self, action):
         """Render the results of action, including text, images, videos, and audios."""
-        if (isinstance(action.result, dict)):
+        if isinstance(action.result, dict):
             if 'text' in action.result:
                 st.markdown('```\n' + action.result['text'] + '\n```')
             if 'image' in action.result:
