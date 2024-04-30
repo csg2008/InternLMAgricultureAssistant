@@ -87,6 +87,35 @@ class DeviceAssistant(BaseAction):
         return tool_return
 
     @tool_api(explode_return=True)
+    def driver_operator_open(self, room: str, driver: str) -> ActionReturn:
+        """
+        开启房间内设备
+
+        Args:
+            room (:class:`str`): 房间名称
+            driver (:class:`str`): 设备名称
+
+        Returns:
+            :class:`str`: 操作状态
+        """
+
+        return self.driver_operator(room, driver, 'open')
+
+    @tool_api(explode_return=True)
+    def driver_operator_close(self, room: str, driver: str) -> ActionReturn:
+        """
+        关闭房间内设备
+
+        Args:
+            room (:class:`str`): 房间名称
+            driver (:class:`str`): 设备名称
+
+        Returns:
+            :class:`str`: 操作状态
+        """
+
+        return self.driver_operator(room, driver, 'close')
+
     def driver_operator(self, room: str, driver: str, operator: str) -> ActionReturn:
         """
         操作房间内设备
@@ -109,9 +138,9 @@ class DeviceAssistant(BaseAction):
                 if v['name'] == room:
                     for _, dv in v['drivers'].items():
                         if dv['name'] == driver or dv['id'] == driver:
-                            if '开启' == operator or 'open' == operator:
+                            if operator in ['开启', 'open']:
                                 dv['status'] = True
-                            elif '关闭' == operator or 'close' == operator:
+                            elif operator in ['关闭', 'close']:
                                 dv['status'] = False
                             else:
                                 operator_error = True

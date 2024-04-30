@@ -65,7 +65,7 @@ class StreamlitUI:
             st.session_state['chatbot'] = Internlm2Agent(
                 llm=model,
                 plugin_executor=ActionExecutor(actions=self.get_actions()),
-                interpreter_executor = ActionExecutor(actions=[IPythonInterpreter()]),
+                # interpreter_executor = ActionExecutor(actions=[IPythonInterpreter()]),
                 protocol=Internlm2Protocol(
                     meta_prompt=st.session_state['model']['prompt_meta'],
                     plugin_prompt=st.session_state['model']['prompt_plugin'],
