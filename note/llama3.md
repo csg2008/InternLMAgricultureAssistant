@@ -1104,4 +1104,5 @@ pip install httpx -U
 ![](./asset/88.png)
 
 问题原因：经过排查发现是 torchrun 命令找不到导致的
+
 解决方法：将 torchrun 命令创建符号链接到 /usr/bin 目录
