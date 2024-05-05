@@ -19,6 +19,7 @@
 > 笔记环境说明：
 > - 第一节为在 InternStudio A100 30% 开发机上进行的
 > - 第二节开始在 Intel Xeon(R) Platinum 8470 + NVIDIA-H800(80GB) + 181 GB 第三方服务器上进行的
+> - 如果服务器连接 Github 或 HuggingFace 不稳定，可以提前下载好源码仓库与依赖包传到服务器安装，虽然麻烦但可以正常进行
 
 2、安装 Pytorch 2.1
 
@@ -847,11 +848,11 @@ wget https://github.com/open-compass/opencompass/releases/download/0.2.2.rc1/Ope
 unzip OpenCompassData-core-20240207.zip
 ```
 
-查看配置文件和支持的评测集名称
+### 查看配置文件和支持的评测集名称
 OpenCompass 预定义了许多模型和评测集的配置，可以通过 工具 列出所有可用的模型和评测集配置
 
-### 列出所有跟 llama3(模型) 及 ceval（评测集） 相关的配置
 ```bash
+### 列出所有跟 llama3(模型) 及 ceval（评测集） 相关的配置
 (llama3) root@notebook-da743598-1b5a-4b12-a0cf-8f429d57bf8d-0:~/dataDisk/opencompass# python tools/list_configs.py llama3 ceval
 +------------------------+---------------------------------------------------+
 | Model                  | Config Path                                       |
@@ -877,6 +878,8 @@ OpenCompass 预定义了许多模型和评测集的配置，可以通过 工具 
 | ceval_zero_shot_gen_bd40ef     | configs/datasets/ceval/ceval_zero_shot_gen_bd40ef.py             |
 +--------------------------------+------------------------------------------------------------------+
 ```
+
+> 说明：如果不指定模型与评测集，就会列出所有支持的模型与评测集
 
 ### 以 C-Eval_gen 评测集为例进行评测：
 基于命令行的评测，参考命令：
@@ -1103,6 +1106,6 @@ pip install httpx -U
 ![](./asset/87.png)
 ![](./asset/88.png)
 
-问题原因：经过排查发现是 torchrun 命令找不到导致的
+问题原因：经过排查发现是 torchrun 命令找不到导致的，可以直接在命令行执行 torchrun 看是否有报错来验证
 
 解决方法：将 torchrun 命令创建符号链接到 /usr/bin 目录
