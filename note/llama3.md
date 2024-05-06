@@ -719,17 +719,82 @@ from lmdeploy.vl import load_image
 pipe = pipeline('xtuner/llava-llama-3-8b-v1_1-hf',
                 chat_template_config=ChatTemplateConfig(model_name='llama3'))
 
-image = load_image('https://llava-vl.github.io/static/images/view.jpg')
+image = load_image('https://raw.githubusercontent.com/open-mmlab/mmdeploy/main/tests/data/tiger.jpeg')
+image2 = load_image('https://llava-vl.github.io/static/images/view.jpg')
+image3=load_image('https://t7.baidu.com/it/u=4162611394,4275913936&fm=193&f=GIF')
+image4=load_image('https://t7.baidu.com/it/u=751369364,429962379&fm=193&f=GIF')
+image5=load_image('https://t7.baidu.com/it/u=2236895945,3887478595&fm=193&f=GIF')
+
 response = pipe(('describe this image', image))
-print(response.text)
+print('describe this image result1:', response.text)
+
+response = pipe(('describe this image', image2))
+print('describe this image result2:', response.text)
+
+response = pipe(('describe this image', image3))
+print('describe this image result3:', response.text)
+
+response = pipe(('describe this image', image4))
+print('describe this image result4:', response.text)
+
+response = pipe(('describe this image', image5))
+print('describe this image result5:', response.text)
 ```
 
-测试图像：
+测试图像1：
+![](https://raw.githubusercontent.com/open-mmlab/mmdeploy/main/tests/data/tiger.jpeg)
+
+测试图像2：
 ![](https://llava-vl.github.io/static/images/view.jpg)
 
-运行结果为：
+测试图像3：
+![](https://t7.baidu.com/it/u=4162611394,4275913936&fm=193&f=GIF)
 
-> 说明：由于模型比较大加载太慢，已经放弃测试
+测试图像4：
+![](https://t7.baidu.com/it/u=751369364,429962379&fm=193&f=GIF)
+
+测试图像5：
+![](https://t7.baidu.com/it/u=2236895945,3887478595&fm=193&f=GIF)
+
+运行结果为：
+```
+(llama3) root@notebook-da743598-1b5a-4b12-a0cf-8f429d57bf8d-0:~/dataDisk# python pipeline_llava.py
+Fetching 18 files: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 18/18 [00:00<00:00, 19784.45it/s]
+[2024-05-06 01:19:37,565] [INFO] [real_accelerator.py:203:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+ [WARNING]  async_io requires the dev libaio .so object and headers but these were not found.
+ [WARNING]  async_io: please install the libaio-dev package with apt
+ [WARNING]  If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+ [WARNING]  Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
+ [WARNING]  sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.1
+ [WARNING]  using untested triton version (2.1.0), only 1.0.0 is known to be compatible
+Loading checkpoint shards: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 9/9 [00:00<00:00, 15.94it/s]
+/root/.local/lib/python3.9/site-packages/huggingface_hub/file_download.py:1132: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+[WARNING] gemm_config.in is not found; using default GEMM algo
+describe this image result1: The image captures a serene moment in nature, featuring a young tiger at rest. The tiger, with its distinctive orange and black stripes, is lying on its side on a grassy field. Its head is comfortably resting on its front paws, and it's looking directly at the camera, giving us a glimpse of its calm demeanor. The background is a lush green field, dotted with trees in the distance, providing a natural backdrop to this tranquil scene. The tiger's position and the surrounding environment suggest a peaceful coexistence between the animal and its habitat. The image does not contain any text or other discernible objects. The relative position of the tiger and the trees indicates that the tiger is closer to the viewer, while the trees are further away. The image does not provide any information that allows for a confident count of the objects or a detailed description of their actions. The image is a testament to the beauty and majesty of wildlife.
+
+describe this image result2: The image captures a serene scene of a wooden dock extending into a tranquil lake. The dock, constructed from wooden planks, serves as a pathway leading the viewer's eye into the heart of the image. The calm water of the lake mirrors the sky above, creating a sense of symmetry and balance. In the distance, the silhouette of mountains and trees can be seen, adding depth and a sense of vastness to the scene. The overall color palette is dominated by shades of blue and green, reflecting the natural environment. The perspective from the dock looking out into the lake invites the viewer to imagine themselves stepping onto the dock and embarking on a peaceful journey into the lake. The landmark identifier "sa_17798" does not provide additional information about the location of this scene.
+
+describe this image result3: In the tranquil setting of this image, a small brown and white puppy is the star of the show. The puppy, with its fur in shades of brown and white, is peacefully sleeping on a white shaggy rug. Its head is comfortably resting on a white blanket, while its body is partially covered by the same blanket, creating a cozy and warm atmosphere.
+
+The puppy's eyes are gently closed, indicating it's in a deep sleep. Its body is curled up, a common sleeping position for many animals, which suggests it's feeling safe and secure in its environment.
+
+The background of the image is blurred, drawing focus to the sleeping puppy. However, it's discernible that the setting is a room with a wooden floor and a white wall, adding to the homely and comfortable ambiance of the scene.
+
+The image also contains a text that reads "www.veer.com.cn", possibly indicating the source or the creator of the image.
+
+Overall, this image captures a serene moment of a puppy's sleep, evoking feelings of warmth, comfort, and tranquility.
+
+describe this image result4: In the image, a family of three is standing in a kitchen, each holding a glass of orange juice. The man, positioned on the left, is dressed in a blue shirt. The woman, on the right, is wearing a white dress. Between them, in the center, is a child in a pink dress.
+
+The kitchen counter, which is white, is filled with various fruits and vegetables. The background features a window with white curtains. The text "おはようございます", which translates to "Good morning" in English, is visible in the image. The family appears to be enjoying their morning, with the fresh juice in their hands.
+
+describe this image result5: The image captures a vibrant scene of a strawberry display. At the heart of the image are six strawberries, their red hue standing out against the blue plastic containers they are nestled in. Each strawberry is adorned with green leaves, adding a touch of freshness to the scene. The strawberries are arranged in two neat rows of three, with the front row slightly offset from the back row, creating a sense of depth. The background, though blurred, hints at a market or store setting, suggesting that these strawberries are ready to be picked up by a customer. The image does not contain any discernible text. The overall composition of the image places the strawberries as the central focus, with their vivid color and the contrasting blue containers drawing the viewer's attention.
+```
+
+> 说明：此过程需要从 huggingface 加载 https://huggingface.co/xtuner/llava-llama-3-8b-v1_1-hf && https://huggingface.co/openai/clip-vit-large-patch14-336 两个模型，模型比较大需要耐心等待
 
 
 ## 五、Llama 3 Agent 能力微调
