@@ -1,3 +1,10 @@
 lagent
 requests
 streamlit
+loguru==0.7.2
+BCEmbedding==0.1.3
+chromadb==0.5.0
+langchain==0.1.14
+langchain-community==0.0.34
+langchain-core==0.1.45
+langchain-text-splitters==0.0.2

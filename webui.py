@@ -30,8 +30,9 @@ class StreamlitUI:
             DeviceAssistant(),
             WeatherQuery(),
             KnowledgeQuery(
-                db_path = st.session_state['model']['vector_db'],
-                embedding_model = st.session_state['model']['embedding_path']
+                embedding_model = st.session_state['model']['embedding_path'],
+                reranker_model = st.session_state['model']['reranker_path'],
+                db_path = st.session_state['model']['vector_db']
             ),
         ]
 

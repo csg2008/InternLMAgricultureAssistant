@@ -3,7 +3,7 @@
 import os
 import argparse
 
-from utils.store import generate_vector_store
+from utils.retriever import Retriever
 from action.knowledge import KnowledgeQuery
 
 def parse_args():
@@ -16,7 +16,9 @@ def parse_args():
     parser.add_argument('--db_path',  type=str,
                         help='向量数据库路径')
     parser.add_argument('--embedding_model', type=str,
-                        help='词向量模型名')
+                        help='embedding 模型名')
+    parser.add_argument('--reranker_model', type=str,
+                        help='reranker 模型名')
     return parser.parse_args()
 
 def check_db_param(args):
@@ -32,6 +34,9 @@ def check_db_param(args):
     if args.embedding_model is None or not os.path.exists(args.embedding_model):
         status = False
         msg = '--embedding_model 词向量模型路径参数不能为空或不是有效的路径'
+    if args.reranker_model is None or not os.path.exists(args.reranker_model):
+        status = False
+        msg = '--reranker_model 词向量模型路径参数不能为空或不是有效的路径'
 
     return status, msg
 
@@ -41,16 +46,17 @@ if __name__ == '__main__':
     if 'db' == arg_dict.cmd:
         arg_check, check_msg = check_db_param(arg_dict)
         if arg_check:
-            generate_vector_store(arg_dict.doc_path, arg_dict.db_path, arg_dict.embedding_model)
+            retriever = Retriever(arg_dict.embedding_model, arg_dict.reranker_model)
+            retriever.build(arg_dict.doc_path, arg_dict.db_path)
         else:
             print(check_msg)
     elif 'query' == arg_dict.cmd:
         arg_check, check_msg = check_db_param(arg_dict)
         if arg_check:
             question = '菠萝是长在树上的吗'
-            retriever = KnowledgeQuery(arg_dict.db_path, arg_dict.embedding_model)
-            result = retriever.run(question)
-            print(result.result[0]['content'])
+            retriever = Retriever(arg_dict.embedding_model, arg_dict.reranker_model, arg_dict.db_path)
+            result = retriever.query(question)
+            print(result)
         else:
             print(check_msg)
     else:
