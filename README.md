@@ -17,6 +17,7 @@
 - [x] 天气工具 - [自定义工具](https://github.com/InternLM/Tutorial/blob/camp2/agent/homework.md#%E8%BF%9B%E9%98%B6%E4%BD%9C%E4%B8%9A)
 - [x] 知识库工具 - [LAgent 中实现 RAG 工具](https://github.com/InternLM/Tutorial/blob/camp2/agent/homework.md#%E7%AE%97%E6%B3%95%E6%96%B9%E5%90%91)
 - [x] 大棚助手工具 - [智能体应用](https://github.com/InternLM/Tutorial/blob/camp2/agent/homework.md#%E5%BA%94%E7%94%A8%E6%96%B9%E5%90%91)
+- [x] 改进知识库提升表现 - [茴香豆](https://github.com/InternLM/Tutorial/blob/camp2/huixiangdou/homework.md#b%E7%AE%97%E6%B3%95%E6%96%B9%E5%90%91%E5%B0%9D%E8%AF%95%E4%BF%AE%E6%94%B9-good_questionsjson%E8%B0%83%E8%AF%95-prompt-%E6%88%96%E5%BA%94%E7%94%A8%E5%85%B6%E4%BB%96-nlp-%E6%8A%80%E6%9C%AF%E5%A6%82%E5%85%B6%E4%BB%96-chunk-%E6%96%B9%E6%B3%95%E6%8F%90%E9%AB%98%E4%B8%AA%E4%BA%BA%E5%B7%A5%E4%BD%9C%E5%8A%A9%E6%89%8B%E7%9A%84%E8%A1%A8%E7%8E%B0)
 
 ## 演示截图
 主界面
